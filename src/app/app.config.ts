@@ -21,14 +21,14 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       provideFirebaseApp(() =>
         initializeApp({
-          projectId: 'da-bubble-6e91a',
-          appId: '1:435601506485:web:dd5dd78a239840fbb7fefc',
-          storageBucket: 'da-bubble-6e91a.appspot.com',
-          apiKey: 'AIzaSyCrYeJXl3oqlWCfl7NjrLX9lDvHzhuPg5I',
-          authDomain: 'da-bubble-6e91a.firebaseapp.com',
-          messagingSenderId: '435601506485',
+          projectId: 'da-bubble-69930',
+          appId: '1:279846477504:web:277674e030fa7c847e9725',
+          storageBucket: 'da-bubble-69930.appspot.com',
+          apiKey: 'AIzaSyAwq8sDBGwt-NOVSll7hfsBiJ-269x7qGs',
+          authDomain: 'da-bubble-69930.firebaseapp.com',
+          messagingSenderId: '279846477504',
           databaseURL:
-            'https://da-bubble-6e91a-default-rtdb.europe-west1.firebasedatabase.app',
+            'https://da-bubble-69930-default-rtdb.europe-west1.firebasedatabase.app',
         })
       )
     ),
