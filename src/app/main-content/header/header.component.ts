@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { DataService } from '../../shared/services/data.service';
 import { User } from '../../shared/models/user.class';
-import { slideInRightAnimationSlow, slideInleftAnimationSlow } from '../../shared/services/animations';
+import {
+  slideInRightAnimationSlow,
+  slideInleftAnimationSlow,
+} from '../../shared/services/animations';
 import { PositionService } from '../../shared/services/position.service';
 import { MatCardModule } from '@angular/material/card';
 import { DialogsService } from '../../shared/services/dialogs.service';
@@ -18,11 +21,7 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule, SearchBarComponent, MatCardModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  animations: [
-    slideInRightAnimationSlow,
-    slideInleftAnimationSlow
-
-  ],
+  animations: [slideInRightAnimationSlow, slideInleftAnimationSlow],
 })
 export class HeaderComponent {
   dropDown: boolean = false;
@@ -31,7 +30,7 @@ export class HeaderComponent {
     uid: '',
     email: 'Lädt...',
     name: 'Lädt...',
-    avatar: './../../../assets/img/avatars/unknown.jpg'
+    avatar: './../../../assets/img/avatars/unknown.jpg',
   });
   isMenuVisible: Boolean = true;
   users: User[] = [];
@@ -42,36 +41,40 @@ export class HeaderComponent {
     private DataService: DataService,
     private positionService: PositionService,
     private dialogService: DialogsService,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {
     this.currentUser = this.DataService.currentUser!;
   }
 
   /**
- * Initializes component, setting up subscriptions to observe changes in responsive window visibility.
- */
+   * Initializes component, setting up subscriptions to observe changes in responsive window visibility.
+   */
   ngOnInit() {
-    this.positionService.isResponsiveWindowVisible('menu').subscribe(isVisible => {
-      this.isMenuVisible = isVisible;
-    });
+    this.positionService
+      .isResponsiveWindowVisible('menu')
+      .subscribe((isVisible) => {
+        this.isMenuVisible = isVisible;
+      });
   }
 
   /**
- * Subscribes to user data after the view initializes.
- */
+   * Subscribes to user data after the view initializes.
+   */
   ngAfterViewInit() {
     this.usersSubscription = this.usersSubscriptionReturn();
   }
 
   /**
- * Subscribes to the DataService to receive updates on users, updating the current user if necessary.
- * @returns {Subscription} The subscription to the users data.
- */
-  usersSubscriptionReturn() {
+   * Subscribes to the DataService to receive updates on users, updating the current user if necessary.
+   * @returns {Subscription} The subscription to the users data.
+   */
+  usersSubscriptionReturn(): Subscription {
     return this.DataService.users$.subscribe((users) => {
       this.users = users;
       // Durchlaufe alle Benutzer und aktualisiere currentUser, wenn die IDs übereinstimmen
-      const currentUserUpdate = users.find(user => user.id === this.currentUser.id);
+      const currentUserUpdate = users.find(
+        (user) => user.id === this.currentUser.id
+      );
       if (currentUserUpdate) {
         this.currentUser = currentUserUpdate;
       }
@@ -80,15 +83,15 @@ export class HeaderComponent {
   }
 
   /**
- * Opens the header menu dialog.
- */
+   * Opens the header menu dialog.
+   */
   openDialog() {
-    this.dialogService.headerMenuDialog()
+    this.dialogService.headerMenuDialog();
   }
 
   /**
- * Toggles the visibility of the dropdown menu.
- */
+   * Toggles the visibility of the dropdown menu.
+   */
   toggleDropDown() {
     if (this.dropDown) {
       this.dropDown = false;
@@ -98,28 +101,28 @@ export class HeaderComponent {
   }
 
   /**
- * Navigates to the main menu, updating the responsive window state.
- */
+   * Navigates to the main menu, updating the responsive window state.
+   */
   goToMenu() {
     this.positionService.setThreadResponsiveWindow(false);
     this.positionService.setActiveResponsiveWindow('menu');
   }
 
   /**
- * Handles image loading errors by setting a default avatar image.
- * @param {Event} event The event triggered by the image loading error.
- */
+   * Handles image loading errors by setting a default avatar image.
+   * @param {Event} event The event triggered by the image loading error.
+   */
   onImageError(event: Event) {
-    (event.target as HTMLImageElement).src = './../../assets/img/avatars/unknown.jpg';
+    (event.target as HTMLImageElement).src =
+      './../../assets/img/avatars/unknown.jpg';
   }
 
   /**
- * Cleans up subscriptions when the component is destroyed.
- */
+   * Cleans up subscriptions when the component is destroyed.
+   */
   ngOnDestroy() {
     if (this.usersSubscription) {
       this.usersSubscription.unsubscribe();
     }
   }
-
 }
